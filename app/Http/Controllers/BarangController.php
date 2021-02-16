@@ -292,7 +292,7 @@ class BarangController extends Controller
         } else {
             $data = Supplier::findOrFail($request->idsupplier);
             if($data){
-                $ratarata = BarangMasuk::where('supplier_id', $request->idsupplier)->groupBy('barang_id')->avg('jumlah');
+                $ratarata = BarangMasuk::selectRaw('AVG(jumlah) average, barang_id')->where('supplier_id', $request->idsupplier)->groupBy('barang_id')->get();
 
                 return response()->json([
                     'success' => true,
